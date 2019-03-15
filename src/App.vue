@@ -17,55 +17,97 @@
                         <swatches v-model="niftyData.colours[colour].tertiary"></swatches>
                     </b-form-group>
                     <b-form-group id="ethnicity" label="Ethnicity:" label-for="ethnicity">
-                        <b-form-select id="ethnicity" :options="niftyData.ethnicitiesOptions" required v-model="ethnicity"/>
+                        <b-form-select id="ethnicity" :options="niftyData.ethnicitiesOptions" required v-model="ethnicity" v-on:change="ethnicitiesChange"/>
                         <hr/>
                         <div class="row">
                             <div class="col">Skin:</div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].skin[0]" type="text"/></div>
-                            <div class="col"><swatches v-model="niftyData.ethnicities[ethnicity].skin[0]"></swatches></div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].skin[1]" type="text"/></div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].skin[0]" type="text"/>
+                            </div>
+                            <div class="col">
+                                <swatches v-model="niftyData.ethnicities[ethnicity].skin[0]"></swatches>
+                            </div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].skin[1]" type="text"/>
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class="col">Shadow:</div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].shadow[0]" type="text"/></div>
-                            <div class="col"><swatches v-model="niftyData.ethnicities[ethnicity].shadow[0]"></swatches></div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].shadow[1]" type="text"/></div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].shadow[0]" type="text"/>
+                            </div>
+                            <div class="col">
+                                <swatches v-model="niftyData.ethnicities[ethnicity].shadow[0]"></swatches>
+                            </div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].shadow[1]" type="text"/>
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class="col">Cheek:</div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].cheek[0]" type="text"/></div>
-                            <div class="col"><swatches v-model="niftyData.ethnicities[ethnicity].cheek[0]"></swatches></div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].cheek[1]" type="text"/></div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].cheek[0]" type="text"/>
+                            </div>
+                            <div class="col">
+                                <swatches v-model="niftyData.ethnicities[ethnicity].cheek[0]"></swatches>
+                            </div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].cheek[1]" type="text"/>
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class="col">Hair Top:</div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].hair_top[0]" type="text"/></div>
-                            <div class="col"><swatches v-model="niftyData.ethnicities[ethnicity].hair_top[0]"></swatches></div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].hair_top[1]" type="text"/></div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].hair_top[0]" type="text"/>
+                            </div>
+                            <div class="col">
+                                <swatches v-model="niftyData.ethnicities[ethnicity].hair_top[0]"></swatches>
+                            </div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].hair_top[1]" type="text"/>
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class="col">Hair Bottom:</div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].hair_bottom[0]" type="text"/></div>
-                            <div class="col"><swatches v-model="niftyData.ethnicities[ethnicity].hair_bottom[0]"></swatches></div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].hair_bottom[1]" type="text"/></div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].hair_bottom[0]" type="text"/>
+                            </div>
+                            <div class="col">
+                                <swatches v-model="niftyData.ethnicities[ethnicity].hair_bottom[0]"></swatches>
+                            </div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].hair_bottom[1]" type="text"/>
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class="col">Beard:</div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].beard[0]" type="text"/></div>
-                            <div class="col"><swatches v-model="niftyData.ethnicities[ethnicity].beard[0]"></swatches></div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].beard[1]" type="text"/></div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].beard[0]" type="text"/>
+                            </div>
+                            <div class="col">
+                                <swatches v-model="niftyData.ethnicities[ethnicity].beard[0]"></swatches>
+                            </div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].beard[1]" type="text"/>
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class="col">Tache:</div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].tache[0]" type="text"/></div>
-                            <div class="col"><swatches v-model="niftyData.ethnicities[ethnicity].tache[0]"></swatches></div>
-                            <div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].tache[1]" type="text"/></div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].tache[0]" type="text"/>
+                            </div>
+                            <div class="col">
+                                <swatches v-model="niftyData.ethnicities[ethnicity].tache[0]"></swatches>
+                            </div>
+                            <div class="col">
+                                <b-form-input v-model="niftyData.ethnicities[ethnicity].tache[1]" type="text"/>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -82,6 +124,10 @@
                             <!--<div class="col"><b-form-input v-model="niftyData.ethnicities[ethnicity].tache[1]" type="text"/></div>-->
                         </div>
 
+                        <code class="small">
+                            {{ ethnicitiesClone }}
+                        </code>
+
                     </b-form-group>
                 </b-form>
             </div>
@@ -93,7 +139,6 @@
     import axios from 'axios';
     import Swatches from 'vue-swatches';
     import 'vue-swatches/dist/vue-swatches.min.css';
-    import BFormText from 'bootstrap-vue/src/components/form/form-text';
 
     export default {
         name: 'app',
@@ -103,11 +148,26 @@
                 ethnicity: 0,
                 kit: 0,
                 colour: 0,
+                ethnicitiesClone: {
+                    'name': 'Neville',
+                    'skin': ['#E0AC69', 1],
+                    'cheek': ['#D8A064', 1],
+                    'shadow': ['#C68442', 1],
+                    'hair_top': ['#8D5524', 0],
+                    'hair_bottom': ['#8D5524', 0],
+                    'beard': ['#8D5524', 0],
+                    'tache': ['#8D5524', 1]
+                },
             };
         },
         components: {
-            BFormText,
             Swatches
+        },
+        methods: {
+            ethnicitiesChange (c) {
+                console.log(c);
+                this.ethnicitiesClone = this.niftyData.ethnicities[c];
+            }
         },
         async created () {
             const res = await axios.get(`http://localhost:5000/futbol-cards/us-central1/api/network/5777/image/data`);
