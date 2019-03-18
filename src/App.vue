@@ -3,7 +3,8 @@
         <h1 class="m-2">Nifty Football Builder</h1>
         <div class="row">
             <div class="col m-5">
-                <img :src="`http://localhost:5000/futbol-cards/us-central1/api/network/5777/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}`"/>
+                <!--<img :src="`http://localhost:5000/futbol-cards/us-central1/api/network/5777/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}`"/>-->
+                <img :src="`http://localhost:5000/futbol-cards/us-central1/api/network/5777/image/skin/${ethnicitiesClone.skin[0].substr(1)}/${ethnicitiesClone.skin[1]}/shadow/${ethnicitiesClone.shadow[0].substr(1)}/cheek/${ethnicitiesClone.cheek[0].substr(1)}/hair_top/${ethnicitiesClone.hair_top[0].substr(1)}/${ethnicitiesClone.hair_top[1]}/hair_bottom/${ethnicitiesClone.hair_bottom[0].substr(1)}/${ethnicitiesClone.hair_bottom[1]}/beard/${ethnicitiesClone.beard[0].substr(1)}/${ethnicitiesClone.beard[1]}/tache/${ethnicitiesClone.tache[0].substr(1)}/${ethnicitiesClone.tache[1]}/kit/${kit}/colour/${colour}/`"/>
             </div>
             <div class="col">
                 <b-form v-if="niftyData">
@@ -19,6 +20,13 @@
                     <b-form-group id="ethnicity" label="Ethnicity:" label-for="ethnicity">
                         <b-form-select id="ethnicity" :options="niftyData.ethnicitiesOptions" required v-model="ethnicity" v-on:change="ethnicitiesChange"/>
                         <hr/>
+                        <div class="row">
+                            <div class="col">Name:</div>
+                            <div class="col">
+                                <b-form-input v-model="ethnicitiesClone.name" type="text"/>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col">Skin:</div>
                             <div class="col">
@@ -124,9 +132,10 @@
                             <!--<div class="col"><b-form-input v-model="ethnicitiesClone.tache[1]" type="text"/></div>-->
                         </div>
 
-                        <code class="small">
+                        <hr/>
+                        <pre class="small pre-scrollable ">
                             {{ ethnicitiesClone }}
-                        </code>
+                        </pre>
 
                     </b-form-group>
                 </b-form>
