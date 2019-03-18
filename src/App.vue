@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col m-5">
                 <!--<img :src="`http://localhost:5000/futbol-cards/us-central1/api/network/5777/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}`"/>-->
-                <img :src="`http://localhost:5000/futbol-cards/us-central1/api/network/5777/image/skin/${ethnicitiesClone.skin[0].substr(1)}/${ethnicitiesClone.skin[1]}/shadow/${ethnicitiesClone.shadow[0].substr(1)}/cheek/${ethnicitiesClone.cheek[0].substr(1)}/hair_top/${ethnicitiesClone.hair_top[0].substr(1)}/${ethnicitiesClone.hair_top[1]}/hair_bottom/${ethnicitiesClone.hair_bottom[0].substr(1)}/${ethnicitiesClone.hair_bottom[1]}/beard/${ethnicitiesClone.beard[0].substr(1)}/${ethnicitiesClone.beard[1]}/tache/${ethnicitiesClone.tache[0].substr(1)}/${ethnicitiesClone.tache[1]}/kit/${kit}/colour/${colour}/`"/>
+                <img :src="`http://localhost:5000/futbol-cards/us-central1/api/network/5777/image/skin/${ethnicitiesClone.skin[0].substr(1)}/${ethnicitiesClone.skin[1]}/shadow/${ethnicitiesClone.shadow[0].substr(1)}/cheek/${ethnicitiesClone.cheek[0].substr(1)}/eye/${ethnicitiesClone.eye[0].substr(1)}/${ethnicitiesClone.eye[1]}/hair_top/${ethnicitiesClone.hair_top[0].substr(1)}/${ethnicitiesClone.hair_top[1]}/hair_bottom/${ethnicitiesClone.hair_bottom[0].substr(1)}/${ethnicitiesClone.hair_bottom[1]}/beard/${ethnicitiesClone.beard[0].substr(1)}/${ethnicitiesClone.beard[1]}/tache/${ethnicitiesClone.tache[0].substr(1)}/${ethnicitiesClone.tache[1]}/stubble/${ethnicitiesClone.stubble[0].substr(1)}/${ethnicitiesClone.stubble[1]}/kit/${kit}/colour/${colour}/`"/>
             </div>
             <div class="col">
                 <b-form v-if="niftyData">
@@ -19,7 +19,9 @@
                     </b-form-group>
                     <b-form-group id="ethnicity" label="Ethnicity:" label-for="ethnicity">
                         <b-form-select id="ethnicity" :options="niftyData.ethnicitiesOptions" required v-model="ethnicity" v-on:change="ethnicitiesChange"/>
+
                         <hr/>
+
                         <div class="row">
                             <div class="col">Name:</div>
                             <div class="col">
@@ -64,6 +66,13 @@
                             <div class="col">
                                 <b-form-input v-model="ethnicitiesClone.cheek[1]" type="text"/>
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Eye:</div>
+                            <div class="col"><b-form-input v-model="ethnicitiesClone.eye[0]" type="text"/></div>
+                            <div class="col"><swatches v-model="ethnicitiesClone.eye[0]"></swatches></div>
+                            <div class="col"><b-form-input v-model="ethnicitiesClone.eye[1]" type="text"/></div>
                         </div>
 
                         <div class="row">
@@ -120,21 +129,15 @@
 
                         <div class="row">
                             <div class="col">Stubble:</div>
-                            <!--<div class="col"><b-form-input v-model="ethnicitiesClone.tache[0]" type="text"/></div>-->
-                            <!--<div class="col"><swatches v-model="ethnicitiesClone.tache[0]"></swatches></div>-->
-                            <!--<div class="col"><b-form-input v-model="ethnicitiesClone.tache[1]" type="text"/></div>-->
-                        </div>
-
-                        <div class="row">
-                            <div class="col">Eye:</div>
-                            <!--<div class="col"><b-form-input v-model="ethnicitiesClone.tache[0]" type="text"/></div>-->
-                            <!--<div class="col"><swatches v-model="ethnicitiesClone.tache[0]"></swatches></div>-->
-                            <!--<div class="col"><b-form-input v-model="ethnicitiesClone.tache[1]" type="text"/></div>-->
+                            <div class="col"><b-form-input v-model="ethnicitiesClone.stubble[0]" type="text"/></div>
+                            <div class="col"><swatches v-model="ethnicitiesClone.stubble[0]"></swatches></div>
+                            <div class="col"><b-form-input v-model="ethnicitiesClone.stubble[1]" type="text"/></div>
                         </div>
 
                         <hr/>
+
                         <pre class="small pre-scrollable ">
-                            {{ ethnicitiesClone }}
+                            {{ JSON.parse(JSON.stringify(ethnicitiesClone)) }}
                         </pre>
 
                     </b-form-group>
@@ -162,10 +165,12 @@
                     'skin': ['#E0AC69', 1],
                     'cheek': ['#D8A064', 1],
                     'shadow': ['#C68442', 1],
+                    'eye': ['#000000', 1],
                     'hair_top': ['#8D5524', 0],
                     'hair_bottom': ['#8D5524', 0],
                     'beard': ['#8D5524', 0],
-                    'tache': ['#8D5524', 1]
+                    'tache': ['#8D5524', 1],
+                    'stubble': ['#8D5524', 0],
                 },
             };
         },
