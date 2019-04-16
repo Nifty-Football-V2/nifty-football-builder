@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12 col-sm-6">
                 <img style="max-height: 20rem"
-                     :src="`https://us-central1-futbol-cards.cloudfunctions.net/api/network/3/image/skin/${ethnicitiesClone.skin[0].substr(1)}/${ethnicitiesClone.skin[1]}/shadow/${ethnicitiesClone.shadow[0].substr(1)}/cheek/${ethnicitiesClone.cheek[0].substr(1)}/eye/${ethnicitiesClone.eye[0].substr(1)}/${ethnicitiesClone.eye[1]}/hair_top/${ethnicitiesClone.hair_top[0].substr(1)}/${ethnicitiesClone.hair_top[1]}/hair_bottom/${ethnicitiesClone.hair_bottom[0].substr(1)}/${ethnicitiesClone.hair_bottom[1]}/beard/${ethnicitiesClone.beard[0].substr(1)}/${ethnicitiesClone.beard[1]}/tache/${ethnicitiesClone.tache[0].substr(1)}/${ethnicitiesClone.tache[1]}/stubble/${ethnicitiesClone.stubble[0].substr(1)}/${ethnicitiesClone.stubble[1]}/kit/${kit}/colour/${colour}/name/${name}/position/${position}/average/${average}/tokenId/${tokenId}`"/>
+                     :src="`https://niftyfootball.cards/api/network/3/image/skin/${ethnicitiesClone.skin[0].substr(1)}/${ethnicitiesClone.skin[1]}/shadow/${ethnicitiesClone.shadow[0].substr(1)}/cheek/${ethnicitiesClone.cheek[0].substr(1)}/eye/${ethnicitiesClone.eye[0].substr(1)}/${ethnicitiesClone.eye[1]}/hair_top/${ethnicitiesClone.hair_top[0].substr(1)}/${ethnicitiesClone.hair_top[1]}/hair_bottom/${ethnicitiesClone.hair_bottom[0].substr(1)}/${ethnicitiesClone.hair_bottom[1]}/beard/${ethnicitiesClone.beard[0].substr(1)}/${ethnicitiesClone.beard[1]}/tache/${ethnicitiesClone.tache[0].substr(1)}/${ethnicitiesClone.tache[1]}/stubble/${ethnicitiesClone.stubble[0].substr(1)}/${ethnicitiesClone.stubble[1]}/kit/${kit}/colour/${colour}/name/${name}/position/${position}/average/${average}/tokenId/${tokenId}`"/>
             </div>
             <div class="col-12 col-sm-6">
                 <hr/>
@@ -221,7 +221,7 @@
             }
         },
         async created () {
-            const res = await axios.get(`https://us-central1-futbol-cards.cloudfunctions.net/api/network/3/image/data`);
+            const res = await axios.get(`https://niftyfootball.cards/api/network/3/image/data`);
             this.niftyData = res.data;
 
             this.niftyData.kitOptions = [];
