@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12 col-sm-6">
                 <img style="max-height: 20rem"
-                     :src="`https://niftyfootball.cards/api/network/3/image/skin/${ethnicitiesClone.skin[0].substr(1)}/${ethnicitiesClone.skin[1]}/shadow/${ethnicitiesClone.shadow[0].substr(1)}/cheek/${ethnicitiesClone.cheek[0].substr(1)}/eye/${ethnicitiesClone.eye[0].substr(1)}/${ethnicitiesClone.eye[1]}/hair_top/${ethnicitiesClone.hair_top[0].substr(1)}/${ethnicitiesClone.hair_top[1]}/hair_bottom/${ethnicitiesClone.hair_bottom[0].substr(1)}/${ethnicitiesClone.hair_bottom[1]}/beard/${ethnicitiesClone.beard[0].substr(1)}/${ethnicitiesClone.beard[1]}/tache/${ethnicitiesClone.tache[0].substr(1)}/${ethnicitiesClone.tache[1]}/stubble/${ethnicitiesClone.stubble[0].substr(1)}/${ethnicitiesClone.stubble[1]}/kit/${kit}/colour/${colour}/name/${name}/position/${position}/average/${average}/tokenId/${tokenId}`"/>
+                     :src="`${this.rootApi}network/3/image/skin/${ethnicitiesClone.skin[0].substr(1)}/${ethnicitiesClone.skin[1]}/shadow/${ethnicitiesClone.shadow[0].substr(1)}/cheek/${ethnicitiesClone.cheek[0].substr(1)}/eye/${ethnicitiesClone.eye[0].substr(1)}/${ethnicitiesClone.eye[1]}/hair_top/${ethnicitiesClone.hair_top[0].substr(1)}/${ethnicitiesClone.hair_top[1]}/hair_bottom/${ethnicitiesClone.hair_bottom[0].substr(1)}/${ethnicitiesClone.hair_bottom[1]}/beard/${ethnicitiesClone.beard[0].substr(1)}/${ethnicitiesClone.beard[1]}/tache/${ethnicitiesClone.tache[0].substr(1)}/${ethnicitiesClone.tache[1]}/stubble/${ethnicitiesClone.stubble[0].substr(1)}/${ethnicitiesClone.stubble[1]}/kit/${kit}/colour/${colour}/name/${name}/position/${position}/average/${average}/tokenId/${tokenId}/nationality/${nation}`"/>
             </div>
             <div class="col-12 col-sm-6">
                 <hr/>
@@ -24,6 +24,11 @@
                     </div>
 
                     <div class="row">
+                        <div class="col">
+                            <b-form-group id="nation" label="Nation:" label-for="nation">
+                                <b-form-select id="nation" :options="niftyData.nationalityOptions" required v-model="nation"/>
+                            </b-form-group>
+                        </div>
                         <div class="col">
                             <b-form-group id="average" label="Average:" label-for="average">
                                 <b-form-input v-model="average" type="text"/>
@@ -47,9 +52,9 @@
                         <div class="col">
                             <b-form-group id="colours" label="Colours:" label-for="colours">
                                 <b-form-select id="colours" :options="niftyData.coloursOptions" required v-model="colour"/>
-                                <swatches v-model="niftyData.colours[colour].primary"></swatches>
-                                <swatches v-model="niftyData.colours[colour].secondary"></swatches>
-                                <swatches v-model="niftyData.colours[colour].tertiary"></swatches>
+                                <!--<swatches v-model="niftyData.colours[colour].primary"></swatches>-->
+                                <!--<swatches v-model="niftyData.colours[colour].secondary"></swatches>-->
+                                <!--<swatches v-model="niftyData.colours[colour].tertiary"></swatches>-->
                             </b-form-group>
                         </div>
                     </div>
@@ -69,7 +74,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="display: none">
                         <div class="col">
                             Skin:
                             <b-form-input v-model="ethnicitiesClone.skin[0]" type="text"/>
@@ -80,7 +85,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="display: none">
                         <div class="col">
                             Shadow:
                             <b-form-input v-model="ethnicitiesClone.shadow[0]" type="text"/>
@@ -91,7 +96,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="display: none">
                         <div class="col">
                             Cheek:
                             <b-form-input v-model="ethnicitiesClone.cheek[0]" type="text"/>
@@ -102,7 +107,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="display: none">
                         <div class="col">
                             Eye:
                             <b-form-input v-model="ethnicitiesClone.eye[0]" type="text"/>
@@ -189,6 +194,8 @@
         name: 'app',
         data () {
             return {
+                // rootApi: 'https://niftyfootball.cards/api/',
+                rootApi: 'http://localhost:5000/futbol-cards/us-central1/main/api/',
                 niftyData: null,
                 ethnicity: 0,
                 kit: 0,
@@ -197,8 +204,8 @@
                 position: 'Midfield',
                 average: 84,
                 tokenId: 7983242,
+                nation: 44,
                 ethnicitiesClone: {
-                    'name': 'Neville',
                     'skin': ['#E0AC69', 1],
                     'cheek': ['#D8A064', 1],
                     'shadow': ['#C68442', 1],
@@ -216,22 +223,27 @@
         },
         methods: {
             ethnicitiesChange (c) {
-                console.log(c);
-                this.ethnicitiesClone = this.niftyData.ethnicities[c];
+
+                this.ethnicitiesClone = this.niftyData.exampleEthnicities[c];
+
+                console.log(this.ethnicitiesClone);
             }
         },
         async created () {
-            const res = await axios.get(`https://niftyfootball.cards/api/network/3/image/data`);
+            const res = await axios.get(`${this.rootApi}/network/3/image/data`);
             this.niftyData = res.data;
 
             this.niftyData.kitOptions = [];
-            this.niftyData.kits.forEach((k, i) => this.niftyData.kitOptions.push({value: i, text: k}));
+            Object.keys(this.niftyData.kits).forEach((k, i) => this.niftyData.kitOptions.push({value: k, text: this.niftyData.kits[k].name}));
 
             this.niftyData.coloursOptions = [];
-            this.niftyData.colours.forEach((k, i) => this.niftyData.coloursOptions.push({value: i, text: k.name}));
+            Object.keys(this.niftyData.colours).forEach((k) => this.niftyData.coloursOptions.push({value: k, text: this.niftyData.colours[k].name}));
+
+            this.niftyData.nationalityOptions = [];
+            Object.keys(this.niftyData.nationalties).forEach((k) => this.niftyData.nationalityOptions.push({value: k, text: this.niftyData.nationalties[k]}));
 
             this.niftyData.ethnicitiesOptions = [];
-            this.niftyData.ethnicities.forEach((k, i) => this.niftyData.ethnicitiesOptions.push({value: i, text: k.name}));
+            Object.keys(this.niftyData.exampleEthnicities).forEach((k) => this.niftyData.ethnicitiesOptions.push({value: k, text: k}));
         }
     };
 </script>
