@@ -194,8 +194,8 @@
         name: 'app',
         data () {
             return {
-                // rootApi: 'https://niftyfootball.cards/api/',
-                rootApi: 'http://localhost:5000/futbol-cards/us-central1/main/api/',
+                rootApi: 'https://niftyfootball.cards/api/',
+                // rootApi: 'http://localhost:5000/futbol-cards/us-central1/main/api/',
                 niftyData: null,
                 ethnicity: 0,
                 kit: 0,
