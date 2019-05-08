@@ -194,8 +194,8 @@
         name: 'app',
         data () {
             return {
-                rootApi: 'https://niftyfootball.cards/api/',
-                // rootApi: 'http://localhost:5000/futbol-cards/us-central1/main/api/',
+                // rootApi: 'https://niftyfootball.cards/api/',
+                rootApi: 'http://localhost:5000/futbol-cards/us-central1/main/api/',
                 niftyData: null,
                 ethnicity: 0,
                 kit: 0,
@@ -234,10 +234,10 @@
             this.niftyData = res.data;
 
             this.niftyData.kitOptions = [];
-            Object.keys(this.niftyData.kits).forEach((k, i) => this.niftyData.kitOptions.push({value: k, text: this.niftyData.kits[k].name}));
+            Object.keys(this.niftyData.kits).forEach((k, i) => this.niftyData.kitOptions.push({value: k, text: `${i} - ${this.niftyData.kits[k].name}`}));
 
             this.niftyData.coloursOptions = [];
-            Object.keys(this.niftyData.colours).forEach((k) => this.niftyData.coloursOptions.push({value: k, text: this.niftyData.colours[k].name}));
+            Object.keys(this.niftyData.colours).forEach((k, i) => this.niftyData.coloursOptions.push({value: k, text: `${i} - ${this.niftyData.colours[k].name}`}));
 
             this.niftyData.nationalityOptions = [];
             Object.keys(this.niftyData.nationalties).forEach((k) => this.niftyData.nationalityOptions.push({value: k, text: this.niftyData.nationalties[k]}));
