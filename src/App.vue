@@ -58,13 +58,14 @@
                 <hr/>
 
                 <code>
-                    firstName: {{firstName}}<br/>
-                    lastName: {{lastName}}<br/>
                     nationality: {{nationality}}<br/>
                     position: {{position}}<br/>
                     ethnicity: {{ethnicity}}<br/>
                     kit: {{kit}}<br/>
                     colour: {{colour}}<br/>
+                    firstName: {{firstName}}<br/>
+                    lastName: {{lastName}}<br/>
+                    to<br/>
                 </code>
             </div>
         </div>
