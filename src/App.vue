@@ -7,6 +7,14 @@
 
                 <hr/>
 
+
+                <b-form v-if="ethAccount">
+                    <b-form-group id="ethAccount" label="ETH Account:" label-for="ethAccount">
+                        <b-form-input v-model="ethAccount" required></b-form-input>
+                    </b-form-group>
+                </b-form>
+
+
                 <b-button variant="danger" @click="mintPlayer" class="float-right m-5" size="lg">
                     Mint on {{ contracts.getNetwork(chainId).toUpperCase() }}
                 </b-button>
@@ -82,7 +90,9 @@
 <script>
     import axios from 'axios';
     import { ethers } from 'ethers';
-    import { contracts, abi, getContractForNetworkAndAddress } from 'nifty-football-contract-tools';
+    import { contracts } from 'nifty-football-contract-tools';
+    import BFormText from 'bootstrap-vue/src/components/form/form-text';
+    import BFormInput from 'bootstrap-vue/src/components/form-input/form-input';
 
     export default {
         name: 'app',
@@ -100,17 +110,16 @@
                 provider: null,
                 signer: null,
                 contracts: contracts,
+                ethAccount: window.web3.eth.accounts[0],
             };
         },
-        components: {},
+        components: {BFormInput, BFormText},
         methods: {
             getRootApi () {
-                // if (this.chainId === 5777) {
-                //     return 'http://localhost:5000/futbol-cards/us-central1/main/api';
-                // }
-                // return 'https://niftyfootball.cards/api';
-
-                return 'http://localhost:5000/futbol-cards/us-central1/main/api';
+                if (this.chainId === 5777) {
+                    return 'http://localhost:5000/futbol-cards/us-central1/main/api';
+                }
+                return 'https://niftyfootball.cards/api';
             },
             async mintPlayer () {
 
@@ -124,11 +133,9 @@
                     });
                 };
 
-                // FIXME add ABI to this call? Speak to James
                 const value = 0; // this is admin and free!
-                const addressObj = contracts.getNiftyFootballAdmin(contracts.getNetwork(this.chainId));
+                const {address, abi} = contracts.getNiftyFootballAdmin(contracts.getNetwork(this.chainId));
 
-                const {address, abi} = getContractForNetworkAndAddress(contracts.getNetwork(this.chainId), addressObj.address);
                 const niftyFootballAdminContract = new ethers.Contract(
                     address,
                     abi,
@@ -144,34 +151,35 @@
                     this.colour,
                     this.firstName,
                     this.lastName,
-                    '0x377a75c4EF92502fE40D2b454f0C3829b8c0ffc5',
+                    this.ethAccount.trim(),
                     {value: value}
                 );
 
-                console.log('Price', gasPrice.toString());
-                console.log('Limit', gasLimit.toString());
+                if (this.ethAccount) {
+                    console.log(`minting to ${this.ethAccount} on ${contracts.getNetwork(this.chainId)}`);
 
-                let overrides = {
-                    gasLimit: gasLimit.add(100000), // The maximum units of gas for the transaction to use
-                    gasPrice: gasPrice,                     // The price (in wei) per unit of gas
-                    value: value,
-                };
+                    let overrides = {
+                        gasLimit: gasLimit.add(100000), // The maximum units of gas for the transaction to use
+                        gasPrice: gasPrice,  // The price (in wei) per unit of gas
+                        value: value,
+                    };
 
-                // wait for tx to be mined
-                let tx = await niftyFootballAdminContract.generateAndAssignCard(
-                    this.nationality,
-                    this.position,
-                    this.ethnicity,
-                    this.kit,
-                    this.colour,
-                    this.firstName,
-                    this.lastName,
-                    '0x377a75c4EF92502fE40D2b454f0C3829b8c0ffc5',
-                    overrides
-                );
+                    // wait for tx to be mined
+                    let tx = await niftyFootballAdminContract.generateAndAssignCard(
+                        this.nationality,
+                        this.position,
+                        this.ethnicity,
+                        this.kit,
+                        this.colour,
+                        this.firstName,
+                        this.lastName,
+                        this.ethAccount.trim(),
+                        overrides
+                    );
 
-                let receipt = await tx.wait(1);
-                console.log(`Rec:`, receipt);
+                    let receipt = await tx.wait(1);
+                    console.log(`Rec:`, receipt);
+                }
             },
         },
         async created () {
