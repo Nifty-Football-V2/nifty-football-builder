@@ -7,13 +7,11 @@
 
                 <hr/>
 
-
-                <b-form v-if="ethAccount">
+                <b-form>
                     <b-form-group id="ethAccount" label="ETH Account:" label-for="ethAccount">
                         <b-form-input v-model="ethAccount" required></b-form-input>
                     </b-form-group>
                 </b-form>
-
 
                 <b-button variant="danger" @click="mintPlayer" class="float-right m-5" size="lg">
                     Mint on {{ contracts.getNetwork(chainId).toUpperCase() }}
@@ -38,7 +36,7 @@
                     <div class="row">
                         <div class="col">
                             <b-form-group id="nation" label="Nationality:" label-for="nation">
-                                <b-form-select id="nation" :options="niftyData.nationalityOptions" required v-model="nationality"/>
+                                <b-form-select id="nation" :options="niftyData.nationalityOptions" required v-model="nationality" v-on:change="flushNames"/>
                             </b-form-group>
                         </div>
                         <div class="col">
@@ -110,7 +108,7 @@
                 provider: null,
                 signer: null,
                 contracts: contracts,
-                ethAccount: window.web3.eth.accounts[0],
+                ethAccount: null,
             };
         },
         components: {BFormInput, BFormText},
@@ -180,6 +178,17 @@
                     let receipt = await tx.wait(1);
                     console.log(`Rec:`, receipt);
                 }
+            },
+            async flushNames () {
+                this.niftyData.firstNameOptions = [];
+                Object.keys(this.niftyData.nations[this.nationality].firstNames).forEach(
+                    (k) => this.niftyData.firstNameOptions.push({value: k, text: `${k} - ${this.niftyData.nations[this.nationality].firstNames[k].latin}`})
+                );
+
+                this.niftyData.lastNameOptions = [];
+                Object.keys(this.niftyData.nations[this.nationality].lastNames).forEach(
+                    (k) => this.niftyData.lastNameOptions.push({value: k, text: `${k} - ${this.niftyData.nations[this.nationality].lastNames[k].latin}`})
+                );
             },
         },
         async created () {
