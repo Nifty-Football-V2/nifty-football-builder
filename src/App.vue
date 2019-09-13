@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12 col-sm-6" v-if="chainId">
                 <img style="max-height: 20rem"
-                     :src="`${getRootApi()}/network/${chainId}/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}/firstName/${firstName}/lastName/${lastName}/position/${position}/nationality/${nationality}`"/>
+                     :src="`${getRootApi()}/network/${chainId}/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}/firstName/${firstName}/lastName/${lastName}/position/${position}/nationality/${nationality}/sponsor/0/boots/0/number/0`"/>
 
                 <hr/>
 
@@ -11,6 +11,7 @@
                     <b-form-group id="ethAccount" label="ETH Account:" label-for="ethAccount">
                         <b-form-input v-model="ethAccount" required></b-form-input>
                     </b-form-group>
+                    <code>{{ ethAccount }}</code>
                 </b-form>
 
                 <b-button variant="danger" @click="mintPlayer" class="float-right m-5" size="lg">
@@ -78,8 +79,6 @@
                     lastName: {{lastName}}<br/>
                     to<br/>
                 </code>
-
-
             </div>
         </div>
     </div>
@@ -94,7 +93,7 @@
 
     export default {
         name: 'app',
-        data () {
+        data() {
             return {
                 niftyData: null,
                 nationality: 44,
@@ -113,13 +112,13 @@
         },
         components: {BFormInput, BFormText},
         methods: {
-            getRootApi () {
-                if (this.chainId === 5777) {
-                    return 'http://localhost:5000/futbol-cards/us-central1/main/api';
+            getRootApi() {
+                if (this.chainId !== 5777) {
+                    return 'https://niftyfootball.cards/api';
                 }
-                return 'https://niftyfootball.cards/api';
+                return 'http://localhost:5000/futbol-cards/us-central1/main/api';
             },
-            async mintPlayer () {
+            async mintPlayer() {
 
                 // our default is mainnet so override
                 const getNetworkString = (network) => {
@@ -179,7 +178,7 @@
                     console.log(`Rec:`, receipt);
                 }
             },
-            async flushNames () {
+            async flushNames() {
                 this.niftyData.firstNameOptions = [];
                 Object.keys(this.niftyData.nations[this.nationality].firstNames).forEach(
                     (k) => this.niftyData.firstNameOptions.push({value: k, text: `${k} - ${this.niftyData.nations[this.nationality].firstNames[k].latin}`})
@@ -191,7 +190,7 @@
                 );
             },
         },
-        async created () {
+        async created() {
             this.provider = new ethers.providers.Web3Provider(web3.currentProvider);
             this.signer = this.provider.getSigner();
 
