@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12 col-sm-6" v-if="chainId">
                 <img style="max-height: 20rem"
-                     :src="`${getRootApi()}/network/${chainId}/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}/firstName/${firstName}/lastName/${lastName}/position/${position}/nationality/${nationality}/sponsor/0/boots/0/number/0`"/>
+                     :src="`${getRootApi()}/network/${chainId}/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}/firstName/${firstName}/lastName/${lastName}/position/${position}/nationality/${nationality}/sponsor/${sponsor}/boots/0/number/0`"/>
 
                 <hr/>
 
@@ -43,6 +43,11 @@
                         <div class="col">
                             <b-form-group id="position" label="Position:" label-for="position">
                                 <b-form-select v-model="position" :options="niftyData.positionOptions" required/>
+                            </b-form-group>
+                        </div>
+                        <div class="col">
+                            <b-form-group id="sponsor" label="Sponsor:" label-for="sponsor">
+                                <b-form-input v-model="sponsor" :options="niftyData.positionOptions" required/>
                             </b-form-group>
                         </div>
                     </div>
@@ -103,6 +108,7 @@
                 colour: 0,
                 firstName: 0,
                 lastName: 0,
+                sponsor: 0,
                 chainId: null,
                 provider: null,
                 signer: null,
