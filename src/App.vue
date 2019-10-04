@@ -2,8 +2,7 @@
     <div id="app" class="container-fluid mt-5">
         <div class="row">
             <div class="col-12 col-sm-6" v-if="chainId">
-                <img style="max-height: 20rem"
-                     :src="`${getRootApi()}/network/${chainId}/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}/firstName/${firstName}/lastName/${lastName}/position/${position}/nationality/${nationality}/sponsor/${sponsor}/boots/0/number/0`"/>
+                <img :src="`${getRootApi()}/network/${chainId}/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}/firstName/${firstName}/lastName/${lastName}/position/${position}/nationality/${nationality}/sponsor/${sponsor}/boots/0/number/0`"/>
 
                 <hr/>
 
