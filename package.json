@@ -8,11 +8,13 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@portis/web3": "^2.0.0-beta.46",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.14",
     "ethers": "^4.0.27",
+    "nifty-football-contract-tools": "^102.0.0",
     "vue": "^2.6.6",
-    "nifty-football-contract-tools": "^1.8.1"
+    "web3": "^1.2.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",

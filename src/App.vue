@@ -16,6 +16,10 @@
                 <b-button variant="danger" @click="mintPlayer" class="float-right m-5" size="lg">
                     Mint on {{ contracts.getNetwork(chainId).toUpperCase() }}
                 </b-button>
+
+                <b-button variant="warning" @click="directMintPlayer" class="float-right m-5" size="lg">
+                    DIRECT Mint on {{ contracts.getNetwork(chainId).toUpperCase() }}
+                </b-button>
             </div>
             <div class="col-12 col-sm-6">
                 <b-form v-if="niftyData">
@@ -89,6 +93,9 @@
 </template>
 
 <script>
+    import Portis from '@portis/web3';
+    import Web3 from 'web3';
+
     import axios from 'axios';
     import { ethers } from 'ethers';
     import { contracts } from 'nifty-football-contract-tools';
@@ -118,9 +125,7 @@
         components: {BFormInput, BFormText},
         methods: {
             getRootApi() {
-                if (this.chainId !== 5777) {
-                    return 'https://niftyfootball.cards/api';
-                }
+                // return 'https://niftyfootball.cards/api';
                 return 'http://localhost:5000/futbol-cards/us-central1/main/api';
             },
             async mintPlayer() {
@@ -137,6 +142,8 @@
 
                 const value = 0; // this is admin and free!
                 const {address, abi} = contracts.getNiftyFootballAdmin(contracts.getNetwork(this.chainId));
+
+                console.log(`Calling ${getNetworkString(this.chainId)} [${contracts.getNetwork(this.chainId)}] address: ${address}`);
 
                 const niftyFootballAdminContract = new ethers.Contract(
                     address,
@@ -183,6 +190,66 @@
                     console.log(`Rec:`, receipt);
                 }
             },
+            async directMintPlayer() {
+
+                // our default is mainnet so override
+                const getNetworkString = (network) => {
+                    return contracts.networkSplitter(network, {
+                        mainnet: 'homestead',
+                        ropsten: 'ropsten',
+                        rinkeby: 'rinkeby',
+                        local: 'homestead'
+                    });
+                };
+
+                const value = 0; // this is admin and free!
+                const {address, abi} = contracts.getNiftyFootballNft(contracts.getNetwork(this.chainId));
+
+                console.log(`Calling ${getNetworkString(this.chainId)} [${contracts.getNetwork(this.chainId)}] address: ${address}`);
+
+                const niftyFootballNftContract = new ethers.Contract(
+                    address,
+                    abi,
+                    this.signer,
+                );
+
+                const gasPrice = await ethers.getDefaultProvider(getNetworkString(this.chainId)).getGasPrice();
+                const gasLimit = await niftyFootballNftContract.estimate.mintCard(
+                    0,
+                    this.nationality,
+                    this.position,
+                    this.ethnicity,
+                    this.kit,
+                    this.colour,
+                    this.ethAccount.trim(),
+                    {value: 0}
+                );
+
+                if (this.ethAccount) {
+                    console.log(`minting to ${this.ethAccount} on ${contracts.getNetwork(this.chainId)}`);
+
+                    let overrides = {
+                        gasLimit: 7095780, // The maximum units of gas for the transaction to use
+                        gasPrice: gasPrice,  // The price (in wei) per unit of gas
+                        value: value,
+                    };
+
+                    // wait for tx to be mined
+                    let tx = await niftyFootballNftContract.mintCard(
+                        0,
+                        this.nationality,
+                        this.position,
+                        this.ethnicity,
+                        this.kit,
+                        this.colour,
+                        this.ethAccount.trim(),
+                        {value: 0}
+                    );
+
+                    let receipt = await tx.wait(1);
+                    console.log(`Rec:`, receipt);
+                }
+            },
             async flushNames() {
                 this.niftyData.firstNameOptions = [];
                 Object.keys(this.niftyData.nations[this.nationality].firstNames).forEach(
@@ -196,7 +263,17 @@
             },
         },
         async created() {
-            this.provider = new ethers.providers.Web3Provider(web3.currentProvider);
+
+            this.portis = new Portis('b96ecc12-e7bc-4178-a489-ffd4bbb703ef', 'rinkeby', { gasRelay: true });
+            this.web3 = new Web3(this.portis.provider);
+
+            const accounts = await this.web3.eth.getAccounts();
+            console.log(accounts);
+            console.log(this.web3.currentProvider);
+
+            this.ethAccount = accounts[0];
+
+            this.provider = new ethers.providers.Web3Provider(this.web3.currentProvider);
             this.signer = this.provider.getSigner();
 
             const {chainId} = await this.provider.getNetwork();
