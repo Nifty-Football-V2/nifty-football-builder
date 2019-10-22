@@ -2,7 +2,7 @@
     <div id="app" class="container-fluid mt-5">
         <div class="row">
             <div class="col-12 col-sm-6" v-if="chainId">
-                <img :src="`${getRootApi()}/network/${chainId}/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}/firstName/${firstName}/lastName/${lastName}/position/${position}/nationality/${nationality}/sponsor/${sponsor}/boots/0/number/0`"/>
+                <img :src="`https://niftyfootball.cards/api/network/4/image/ethnicity/${ethnicity}/kit/${kit}/colour/${colour}/firstName/${firstName}/lastName/${lastName}/position/${position}/nationality/${nationality}/sponsor/${sponsor}/boots/0/number/0`"/>
 
                 <hr/>
 
@@ -94,7 +94,6 @@
 
 <script>
     import Portis from '@portis/web3';
-    import Web3 from 'web3';
 
     import axios from 'axios';
     import { ethers } from 'ethers';
@@ -213,7 +212,7 @@
                     this.signer,
                 );
 
-                const gasPrice = await ethers.getDefaultProvider(getNetworkString(this.chainId)).getGasPrice();
+                /*const gasPrice = await ethers.getDefaultProvider(getNetworkString(this.chainId)).getGasPrice();
                 const gasLimit = await niftyFootballNftContract.estimate.mintCard(
                     0,
                     this.nationality,
@@ -222,17 +221,17 @@
                     this.kit,
                     this.colour,
                     this.ethAccount.trim(),
-                    {value: 0}
-                );
+                    {value: 0, gasLimit: 750000}
+                );*/
 
                 if (this.ethAccount) {
                     console.log(`minting to ${this.ethAccount} on ${contracts.getNetwork(this.chainId)}`);
 
-                    let overrides = {
+                    /*let overrides = {
                         gasLimit: 7095780, // The maximum units of gas for the transaction to use
                         gasPrice: gasPrice,  // The price (in wei) per unit of gas
                         value: value,
-                    };
+                    };*/
 
                     // wait for tx to be mined
                     let tx = await niftyFootballNftContract.mintCard(
@@ -243,7 +242,7 @@
                         this.kit,
                         this.colour,
                         this.ethAccount.trim(),
-                        {value: 0}
+                        {value: 0, gasLimit: 750000}
                     );
 
                     let receipt = await tx.wait(1);
@@ -265,23 +264,22 @@
         async created() {
 
             this.portis = new Portis('b96ecc12-e7bc-4178-a489-ffd4bbb703ef', 'rinkeby', { gasRelay: true });
-            this.web3 = new Web3(this.portis.provider);
+            this.provider = new ethers.providers.Web3Provider(this.portis.provider);
 
-            const accounts = await this.web3.eth.getAccounts();
+            const accounts = await this.provider.listAccounts();
             console.log(accounts);
-            console.log(this.web3.currentProvider);
 
             this.ethAccount = accounts[0];
 
-            this.provider = new ethers.providers.Web3Provider(this.web3.currentProvider);
             this.signer = this.provider.getSigner();
 
-            const {chainId} = await this.provider.getNetwork();
-            this.chainId = chainId;
+            console.log(this.provider.network.name);
+            const {chainId} = this.provider.network.name;
+            this.chainId = 4;
 
             const rootApi = await this.getRootApi();
 
-            const res = await axios.get(`${rootApi}/network/${this.chainId}/image/data`);
+            const res = await axios.get(`https://niftyfootball.cards/api/network/4/image/data`);
             this.niftyData = res.data;
 
             // this could be better...I admit
