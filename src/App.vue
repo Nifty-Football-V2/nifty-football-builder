@@ -201,7 +201,6 @@
                     });
                 };
 
-                const value = 0; // this is admin and free!
                 const {address, abi} = contracts.getNiftyFootballNft(contracts.getNetwork(this.chainId));
 
                 console.log(`Calling ${getNetworkString(this.chainId)} [${contracts.getNetwork(this.chainId)}] address: ${address}`);
@@ -212,26 +211,8 @@
                     this.signer,
                 );
 
-                /*const gasPrice = await ethers.getDefaultProvider(getNetworkString(this.chainId)).getGasPrice();
-                const gasLimit = await niftyFootballNftContract.estimate.mintCard(
-                    0,
-                    this.nationality,
-                    this.position,
-                    this.ethnicity,
-                    this.kit,
-                    this.colour,
-                    this.ethAccount.trim(),
-                    {value: 0, gasLimit: 750000}
-                );*/
-
                 if (this.ethAccount) {
                     console.log(`minting to ${this.ethAccount} on ${contracts.getNetwork(this.chainId)}`);
-
-                    /*let overrides = {
-                        gasLimit: 7095780, // The maximum units of gas for the transaction to use
-                        gasPrice: gasPrice,  // The price (in wei) per unit of gas
-                        value: value,
-                    };*/
 
                     // wait for tx to be mined
                     let tx = await niftyFootballNftContract.mintCard(
@@ -273,8 +254,8 @@
 
             this.signer = this.provider.getSigner();
 
-            console.log(this.provider.network.name);
-            const {chainId} = this.provider.network.name;
+            // console.log(this.provider.network.name);
+            // const {chainId} = this.provider.network.name;
             this.chainId = 4;
 
             const rootApi = await this.getRootApi();
